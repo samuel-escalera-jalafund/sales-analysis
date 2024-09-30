@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Sales_Fact {
+  id          Int             @id @unique
+  total_price Decimal         @db.Decimal(10, 2)
+  revenue     Decimal         @db.Decimal(10, 2)
+  cost        Decimal         @db.Decimal(10, 2)
+  products    SaleProduct[]
+  customer_id Int
+  customer Customer_Dim @relation(fields: [customer_id], references: [id])
+  date_id Int
+  date Data_Dim @relation(fields: [date_id], references: [id])
+}
+
+model Products_Dim {
+  id            Int             @id @unique
+  product_name  String
+  price         Decimal         @db.Decimal(10, 2)
+  cost          Decimal         @db.Decimal(10, 2)
+  category_id   Int
+  sales         SaleProduct[]
+}
+
+model SaleProduct {
+  id          Int         @id @unique
+  sale        Sales_Fact  @relation(fields: [saleId], references: [id])
+  saleId      Int
+  product     Products_Dim @relation(fields: [productId], references: [id])
+  productId   Int
+  quantity    Int         @default(1)
+
+  @@unique([saleId, productId])
+}
+model Customer_Dim {
+  id Int @id @unique
+  name String
+  email String @unique
+  addres String
+  sales Sales_Fact[]
+}
+
+model Data_Dim {
+  id Int @id @unique
+  sale_date DateTime
+  day Int
+  month Int
+  year Int
+  sales Sales_Fact[]
+}
+
