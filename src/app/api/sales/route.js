@@ -1,7 +1,5 @@
-import {PrismaClient} from "@prisma/client";
-import {NextResponse} from "next/server";
-
-const prisma = new PrismaClient();
+import prisma from '@/prisma';
+import { NextResponse } from 'next/server';
 
 export async function GET(req) {
     try {
@@ -9,7 +7,5 @@ export async function GET(req) {
         return NextResponse.json(sales);
     } catch (error) {
         return NextResponse.json({ error: 'Error fetching sales data' }, { status: 500 });
-    } finally {
-        await prisma.$disconnect();
     }
 }

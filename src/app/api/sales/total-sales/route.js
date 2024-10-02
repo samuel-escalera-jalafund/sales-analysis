@@ -1,16 +1,12 @@
-import { PrismaClient } from "@prisma/client";
-import { NextResponse } from "next/server";
-
-const prisma = new PrismaClient();
+import prisma from '@/prisma';
+import { NextResponse } from 'next/server';
 
 export async function GET(req) {
     const { searchParams } = new URL(req.url);
     const filter = searchParams.get('filter');
 
     let startDate, endDate;
-
     const today = new Date();
-
 
     switch (filter) {
         case 'day':
@@ -29,31 +25,35 @@ export async function GET(req) {
             return NextResponse.json({ error: "Invalid filter. Use 'day', 'week', or 'month'." }, { status: 400 });
     }
 
-    const salesData = await prisma.sales_Fact.findMany({
-        where: {
-            date: {
-                sale_date: {
-                    gte: startDate,
-                    lte: endDate,
+    try {
+        const salesData = await prisma.sales_Fact.findMany({
+            where: {
+                date: {
+                    sale_date: {
+                        gte: startDate,
+                        lte: endDate,
+                    },
                 },
             },
-        },
-        select: {
-            total_price: true,
-            date: {
-                select: {
-                    sale_date: true,
+            select: {
+                total_price: true,
+                date: {
+                    select: {
+                        sale_date: true,
+                    },
                 },
             },
-        },
-    });
+        });
 
-    const totalSales = salesData.reduce((total, sale) => total + Number(sale.total_price), 0);
+        const totalSales = salesData.reduce((total, sale) => total + Number(sale.total_price), 0);
 
-    return NextResponse.json({
-        totalSales,
-        salesData,
-        startDate,
-        endDate,
-    });
+        return NextResponse.json({
+            totalSales,
+            salesData,
+            startDate,
+            endDate,
+        });
+    } catch (error) {
+        return NextResponse.json({ error: 'Error fetching sales data' }, { status: 500 });
+    }
 }
