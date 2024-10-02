@@ -8,50 +8,60 @@ datasource db {
 }
 
 model Sales_Fact {
-  id          Int             @id @unique
+  id          String          @id @default(uuid())
   total_price Decimal         @db.Decimal(10, 2)
   revenue     Decimal         @db.Decimal(10, 2)
   cost        Decimal         @db.Decimal(10, 2)
   products    SaleProduct[]
-  customer_id Int
+  customer_id String
   customer Customer_Dim @relation(fields: [customer_id], references: [id])
-  date_id Int
-  date Data_Dim @relation(fields: [date_id], references: [id])
+  date_id String
+  date Date_Dim @relation(fields: [date_id], references: [id])
+
+  @@map("sales_fact")
 }
 
 model Products_Dim {
-  id            Int             @id @unique
+  id            String             @id @default(uuid())
   product_name  String
   price         Decimal         @db.Decimal(10, 2)
   cost          Decimal         @db.Decimal(10, 2)
-  category_id   Int
+  category_id   String
   sales         SaleProduct[]
+
+  @@map("products_dim")
 }
 
 model SaleProduct {
-  id          Int         @id @unique
-  sale        Sales_Fact  @relation(fields: [saleId], references: [id])
-  saleId      Int
-  product     Products_Dim @relation(fields: [productId], references: [id])
-  productId   Int
+  id          String         @id @default(uuid())
+  sale        Sales_Fact  @relation(fields: [sale_id], references: [id])
+  sale_id      String
+  product     Products_Dim @relation(fields: [product_id], references: [id])
+  product_id   String
   quantity    Int         @default(1)
 
-  @@unique([saleId, productId])
+  @@unique([sale_id, product_id])
+
+  @@map("saleproduct")
 }
 model Customer_Dim {
-  id Int @id @unique
+  id String @id @default(uuid())
   name String
   email String @unique
   addres String
   sales Sales_Fact[]
+
+  @@map("customer_dim")
 }
 
-model Data_Dim {
-  id Int @id @unique
+model Date_Dim {
+  id String @id @default(uuid())
   sale_date DateTime
   day Int
   month Int
   year Int
   sales Sales_Fact[]
+
+  @@map("date_dim")
 }
 
