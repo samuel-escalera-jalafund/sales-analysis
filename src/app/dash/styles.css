@@ -1,0 +1,40 @@
+aside {
+    width: 300px;
+    background-color: var(--primary);
+    padding: 20px;
+    height: calc(100vh - 50px);
+    text-align: center;
+    border-radius: 20px;
+    
+    & h1.text-center.my-3 {
+        color: white;
+        font-weight: bold;
+    }
+    
+    & nav {
+        display: flex;
+        flex-direction: column;
+        margin-top: 20px;
+        gap: 10px;
+
+        & span {
+            background-color: var(--white);
+            color: var(--primary);
+            padding: 10px;
+            border-radius: 7px;
+            margin-top: 10px;
+        }
+
+        & a {
+            color: var(--white) !important;
+            padding: 10px;
+            border-radius: 7px;
+            margin: 0 20px;
+            text-decoration: none;
+
+            &:hover {
+                background-color: var(--black-50);
+            }
+        }
+    }
+}
