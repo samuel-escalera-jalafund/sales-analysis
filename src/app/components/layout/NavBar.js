@@ -4,7 +4,7 @@ import './NavBar.css';
 
 const NavBar = () => {
     return (
-        <div className="d-flex flex-column p-3 bg-purple rounded-4 position-fixed navbar-container">
+        <div className="d-flex flex-column p-3 bg-purple rounded-4 navbar-container">
             <div className="text-center mb-4">
                 <h2 className="text-white logoText">SALES</h2>
             </div>
