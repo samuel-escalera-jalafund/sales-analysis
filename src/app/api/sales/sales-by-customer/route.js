@@ -34,7 +34,7 @@ export async function GET() {
             }
 
             customerSalesMap[customerId].numberOfSales += 1; 
-            customerSalesMap[customerId].totalRevenue += parseFloat(sale.total_price) || 0;
+            customerSalesMap[customerId].totalRevenue =   parseFloat((customerSalesMap[customerId].totalRevenue + parseFloat(sale.total_price) || 0).toFixed(2));            ;
         });
 
         const customerSalesData = Object.values(customerSalesMap);

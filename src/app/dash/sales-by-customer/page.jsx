@@ -41,7 +41,7 @@ const SalesByCustomerScreen = () => {
                             <th>Customer name</th>
                             <th>E-mail address</th>
                             <th>Number of sales</th>
-                            <th>Total revenue</th>
+                            <th>Total sales</th>
                         </tr>
                     </thead>
                     <tbody>

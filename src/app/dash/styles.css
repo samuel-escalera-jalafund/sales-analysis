@@ -35,6 +35,11 @@ aside {
             &:hover {
                 background-color: var(--black-50);
             }
+
+            &.active {
+                background-color: var(--white) !important;
+                color: var(--primary) !important;
+            }
         }
     }
 }
