@@ -1,0 +1,28 @@
+:root {
+  --primary: #6600c0;
+  --primary-50: #6600c07a;
+  --secondary: #d6d8ff;
+  --white: #ffffff;
+  --black: #000000;
+  --black-50: #00000020;
+}
+
+.rounded-7 {
+  border-radius: 7px;
+}
+
+.rounded-10 {
+  border-radius: 10px;
+}
+
+.rounded-20 {
+  border-radius: 20px;
+}
+
+.border-color-1 {
+  border-color: var(--primary) !important;
+}
+
+.bg-1-50 {
+  background-color: var(--secondary);
+}
