@@ -1,0 +1,57 @@
+.total-sales-screen {
+    padding: 20px;
+    background-color: #F5F8FF;
+    border-radius: 10px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #5041BC;
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.filter-btn {
+    padding: 10px 20px;
+    background-color: transparent;
+    border: 2px solid #5041BC;
+    border-radius: 10px;
+    color: #5041BC;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.filter-btn.active {
+    background-color: #5041BC;
+    color: white;
+}
+
+.filter-btn:hover {
+    background-color: rgba(80, 65, 188, 0.1);
+}
+
+.total-amount {
+    text-align: right;
+}
+
+.total-amount h2 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #5041BC;
+}
+
+.total-amount p {
+    margin: 0;
+    color: gray;
+}
