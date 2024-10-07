@@ -5,21 +5,31 @@ const SalesByCustomerScreen = () => {
     const [customerSalesData, setCustomerSalesData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [sortBy, setSortBy] = useState('');
+    const [sortOrder, setSortOrder] = useState('asc'); 
+
+    const fetchCustomerSalesData = async (sortByField = '', sortOrderDirection = 'asc') => {
+        setLoading(true);
+        setError(null);
+        try {
+            const response = await fetch(`/api/sales/sales-by-customer?sortBy=${sortByField}&sortOrder=${sortOrderDirection}`);
+            const data = await response.json();
+            setCustomerSalesData(data);
+            setLoading(false);
+        } catch (error) {
+            setError('Error fetching customer sales data');
+            setLoading(false);
+        }
+    };
+
+    const handleSort = (field) => {
+        const newSortOrder = sortBy === field && sortOrder === 'asc' ? 'desc' : 'asc';
+        setSortBy(field);
+        setSortOrder(newSortOrder);
+        fetchCustomerSalesData(field, newSortOrder);
+    };
 
     useEffect(() => {
-        const fetchCustomerSalesData = async () => {
-            try {
-                const response = await fetch('/api/sales/sales-by-customer');
-                const data = await response.json();
-                setCustomerSalesData(data);
-                
-                setLoading(false);
-            } catch (error) {
-                setError('Error fetching customer sales data');
-                setLoading(false);
-            }
-        };
-
         fetchCustomerSalesData();
     }, []);
 
@@ -34,24 +44,57 @@ const SalesByCustomerScreen = () => {
     return (
         <section>
             <h2 className="mb-4">Sales By Customer</h2>
-            <section className="table-responsive">
+            <section className="overflow-auto" style={{ maxHeight: 'calc(100vh - 200px)'}}>
                 <table className="table align-middle">
-                    <thead>
+                    <thead style={{
+                        position: 'sticky',
+                        top: 0,
+                        backgroundColor: '#fff',
+                        boxShadow: '0px 0px 0 2px #eee'
+                    }}>
                         <tr>
-                            <th>Customer name</th>
-                            <th>E-mail address</th>
-                            <th>Number of sales</th>
-                            <th>Total sales</th>
+                            <th onClick={() => handleSort('name')}>
+                                Customer name 
+                                <img 
+                                    src="/chevron-double-up.svg" 
+                                    alt="Sort icon" 
+                                    style={{ width: '18px', marginLeft: '8px' }} 
+                                />
+                            </th>
+                            <th onClick={() => handleSort('email')}>
+                                E-mail address 
+                                <img 
+                                    src="/chevron-double-up.svg" 
+                                    alt="Sort icon" 
+                                    style={{ width: '18px', marginLeft: '8px' }} 
+                                />
+                            </th>
+                            <th onClick={() => handleSort('numberOfSales')}>
+                                Number of sales 
+                                <img 
+                                    src="/chevron-double-up.svg" 
+                                    alt="Sort icon" 
+                                    style={{ width: '18px', marginLeft: '8px' }} 
+                                />
+                            </th>
+                            <th onClick={() => handleSort('totalRevenue')}>
+                                Total sales 
+                                <img 
+                                    src="/chevron-double-up.svg" 
+                                    alt="Sort icon" 
+                                    style={{ width: '18px', marginLeft: '8px' }} 
+                                />
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         {customerSalesData.length > 0 ? (
-                            customerSalesData.map((customer, index) => (
-                                <tr key={customer.id}>
+                            customerSalesData.map((customer) => (
+                                    <tr key={customer.id}>
                                         <td>{customer.name}</td>
-                                        <td>{customer.email}</td>
-                                        <td>{customer.numberOfSales}</td>                                    
-                                        <td>${customer.totalRevenue}</td>
+                                    <td>{customer.email}</td>
+                                    <td>{customer.numberOfSales}</td>                                    
+                                    <td>${customer.totalRevenue}</td>
                                 </tr>
                             ))
                         ) : (

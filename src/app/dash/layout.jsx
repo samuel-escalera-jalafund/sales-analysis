@@ -7,7 +7,7 @@ const DashLayout = ({ children }) => {
     const currentRoute = location.pathname;
 
     return (
-        <div className="d-flex p-4 gap-4 bg-1-50">
+        <div className="d-flex p-4 gap-4 bg-1-50" style={{ height: '100vh'}}>
             <aside>
             <h1 className="text-center my-3 ">SALE</h1>
                 <nav>
@@ -17,11 +17,13 @@ const DashLayout = ({ children }) => {
                     <a href="/dash/date-range" className={currentRoute === '/dash/date-range' ? 'active' : ''}>Date range</a>
                     <span>Tabular report</span>
                     <a href='/dash/product-sales'className={currentRoute === '/dash/product-sales' ? 'active' : ''}>Product sales</a>
-                    <a href='/dash/sales-by-customer' className={currentRoute === '/dash/sales-by-customer' ? 'active' : ''}>Top Customer sales</a>
+                    <a href='/dash/sales-by-customer' className={currentRoute === '/dash/sales-by-customer' ? 'active' : ''}>Customer sales</a>
                 </nav>
             </aside>
-            <main className="overflow-auto p-5 col bg-white rounded-20">
-                {children}
+            <main className="p-3 col bg-white rounded-20 d-flex overflow-auto">
+                <section className="overflow-auto col p-3">
+                    {children}
+                </section>
             </main>
         </div>
     )
